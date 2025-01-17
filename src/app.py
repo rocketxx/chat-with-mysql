@@ -7,7 +7,7 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_openai import ChatOpenAI
 from langchain_groq import ChatGroq
 import streamlit as st
-
+import os
 def init_database(user: str, password: str, host: str, port: str, database: str) -> SQLDatabase:
   db_uri = f"mysql+mysqlconnector://{user}:{password}@{host}:{port}/{database}"
   return SQLDatabase.from_uri(db_uri)
@@ -38,7 +38,9 @@ def get_sql_chain(db):
   prompt = ChatPromptTemplate.from_template(template)
   
   # llm = ChatOpenAI(model="gpt-4-0125-preview")
+  
   llm = ChatGroq(model="mixtral-8x7b-32768", temperature=0)
+  # llm = ChatGroq(model="mixtral-8x7b-32768", temperature=0,groq_api_key=os.getenv("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"))
   
   def get_schema(_):
     return db.get_table_info()
@@ -93,7 +95,7 @@ load_dotenv()
 
 st.set_page_config(page_title="Chat with MySQL", page_icon=":speech_balloon:")
 
-st.title("Chat with MySQL")
+st.title("Chat with WilliamMySQL")
 
 with st.sidebar:
     st.subheader("Settings")
